@@ -14,11 +14,12 @@ function App() {
   return (
     <>
       <Header />
-      <br></br><br></br><br></br><br></br><br></br>
-      <Weather/>
-      
+      {/* <br></br><br></br><br></br><br></br><br></br> */}
+      {/* <Weather /> */}
 
-      <Weather_forcast/>
+      {/* <SchemAndServices /> */}
+
+      {/* <Weather_forcast /> */}
     </>
   );
 }

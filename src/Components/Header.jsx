@@ -1,21 +1,26 @@
-import { React, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { Link ,resolvePath,useMatch ,useResolvedPath} from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { initializeApp } from 'firebase/app';
-import { signInWithPopup,
+import { React, useEffect, useState } from "react";
+import styled from "styled-components";
+import {
+  Link,
+  createBrowserRouter,
+  resolvePath,
+  useMatch,
+  useResolvedPath,
+} from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { initializeApp } from "firebase/app";
+import {
+  signInWithPopup,
   signOut,
   onAuthStateChanged,
   getAuth,
   GoogleAuthProvider,
- } from 'firebase/auth'
+} from "firebase/auth";
 
 function Header() {
-
   const [islogged, setIsLogged] = useState(false);
-  const [authText, setAuthText] = useState("Login")
-
+  const [authText, setAuthText] = useState("Login");
 
   const firebaseConfig = {
     apiKey: "AIzaSyD9fYxXGJ6OhtfbwGpcKt5BADZ_FOiAlGM",
@@ -23,104 +28,89 @@ function Header() {
     projectId: "agricare00",
     storageBucket: "agricare00.appspot.com",
     messagingSenderId: "1051498544113",
-    appId: "1:1051498544113:web:e4cfa9e42d321d3b6ca250"
+    appId: "1:1051498544113:web:e4cfa9e42d321d3b6ca250",
   };
-  
+
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
   const loginHandler = () => {
-    if(islogged) {
-      signOut(auth)
-      .then((response) => {
+    if (islogged) {
+      signOut(auth).then((response) => {
         setAuthText("Login");
         setIsLogged(false);
         toast.success("Logged Out", {
-          position: toast.POSITION.TOP_CENTER
+          position: toast.POSITION.TOP_CENTER,
         });
-      })
+      });
     } else {
-      // login 
+      // login
       signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log('user is : ',result.user);
-        toast.success("Logged In", {
-          position: toast.POSITION.TOP_CENTER
+        .then((result) => {
+          console.log("user is : ", result.user);
+          toast.success("Logged In", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          console.log(result);
+          setIsLogged(true);
+          setAuthText("Logout");
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        console.log(result);
-        setIsLogged(true);
-        setAuthText("Logout");
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
     }
-   
-  }
+  };
 
   return (
     <Container>
-    <div className='upper'>
-    <Right>
-        <div className='logo-container'>
-          <img src="/images/logo.png"/>
+      <div className="upper">
+        <Right>
+          <div className="logo-container">
+            <img src="/images/logo.png" />
+          </div>
+          <div className="text">
+            <p>AgriCare</p>
+          </div>
+        </Right>
+        <Menu></Menu>
+        <Left>
+          <div className="login-button" onClick={loginHandler}>
+            <p>{authText}</p>
+          </div>
+        </Left>
+      </div>
+      <div className="lower">
+        <div className="button-container">
+          <div className="home">
+            <p>Home</p>
+          </div>
+          <div className="scheme">
+            <p>Scheme & Services</p>
+          </div>
+          <div className="prediction">
+            <p>Crop Prediction</p>
+          </div>
+          <div className="news">
+            <p> News</p>
+          </div>
+          <div className="forecast">
+            <p>Weather Forecast</p>
+          </div>
         </div>
-        <div className='text'>
-          <p>AgriCare</p>
-        </div>
-      </Right>
-      <Menu></Menu>
-      <Left>
-        <div className='login-button' onClick={loginHandler}>
-          <p>{authText}</p>
-        </div>
-      </Left>
-    </div>
-    <div className='lower'>
-      <div className='button-container'>
-      <div className='home'>
-          <p>Home</p>
-        </div>
-        <div className='scheme'>
-          <p>Scheme & Services</p>
-        </div>
-        <div className='prediction'>
-          <p>Crop Prediction</p>
-        </div>
-        <div className='news'>
-          <p> News</p>
-        </div>
-        <div className='forecast'>
-          <p>Weather Forecast</p>
-        </div>
-      </div>  
-    </div>
+      </div>
 
-     
-      <ToastContainer 
-        autoClose={1000}
-        hideProgressBar={true}
-      />
+      <ToastContainer autoClose={1000} hideProgressBar={true} />
     </Container>
-  )
+  );
 }
 
-function CustomLink({to,children,...props}){
-  const useResolvedPath = useResolvedPath(to)
-  const isActive = useMatch({path:resolvePath.pathname,end:true})
-  return(
-    <li className={path===to ? "active" :  ""}>
-      <Link to={to}{...props}>{children}</Link>
-    </li>
-  )
-}
 
-export default Header
+export default Header;
 
 const Container = styled.div`
   width: 100%;
-  height: 6.8rem;
+  height: 9.3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,7 +119,7 @@ const Container = styled.div`
   background-color: white;
 
   .upper {
-    height: 5rem;
+    min-height: 6.8rem;
     width: 90%;
     display: flex;
     justify-content: center;
@@ -147,10 +137,6 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
 
-    p {
-      margin: 0;
-    }
-
     .button-container {
       height: 100%;
       width: 90%;
@@ -162,17 +148,21 @@ const Container = styled.div`
         font-weight: 400;
         color: white;
         font-size: 14px;
+        margin: 0;
+        margin-top: 2px;
+        font-family: poppins;
       }
-      .home:hover{
+
+      .home :hover {
         cursor: pointer;
-        text-decoration :underline;
+        text-decoration: underline;
       }
 
       .scheme :hover {
         cursor: pointer;
         text-decoration: underline;
       }
-      .prediction :hover{
+      .prediction :hover {
         cursor: pointer;
         text-decoration: underline;
       }
@@ -180,14 +170,13 @@ const Container = styled.div`
         cursor: pointer;
         text-decoration: underline;
       }
-      .forecast :hover{
+      .forecast :hover {
         cursor: pointer;
         text-decoration: underline;
       }
     }
   }
-
-`
+`;
 
 const Right = styled.div`
   height: 100%;
@@ -198,19 +187,20 @@ const Right = styled.div`
   align-items: center;
   overflow: hidden;
 
+
   .logo-container {
     height: 100%;
-    width: 3rem;
+    width: 5rem;
     display: flex;
     justify-content: start;
     align-items: center;
+    /* background-color: blue; */
 
     img {
-      height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: top;
-      
+      height: 5.2rem;
+      width: 5.2rem;
+      object-fit: cover;
+      object-position: top;
     }
   }
 
@@ -218,14 +208,18 @@ const Right = styled.div`
     height: 100%;
     display: flex;
     align-items: center;
-    flex: 1;
-    
-    p {
-      margin-left: 1rem;
-      font-weight: 600;
-      font-size: 32px;
-    }
 
+    justify-content: start;
+    flex: 1;
+
+    p {
+      margin: 0;
+      margin-left: 1.7rem;
+      margin-top: 4px;
+      font-family: poppins;
+      font-weight: 700;
+      font-size: 36px;
+    }
   }
 `
 
@@ -238,7 +232,6 @@ const Menu = styled.div`
 `
 
 const Left = styled.div`
-  /* background-color: gray; */
   height: 100%;
   flex: 1;
   display: flex;
@@ -246,12 +239,16 @@ const Left = styled.div`
   align-items: center;
 
   .login-button {
-    height: 50%;
-    width: 6rem;
+    margin-top: 8px;
+    height: 3.5rem;
+    width: 7.5rem;
     background-color: black;
     border-radius: 40px;
     cursor: pointer;
     transition: opacity 0.15s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
       opacity: 0.9;
@@ -261,14 +258,11 @@ const Left = styled.div`
       opacity: 0.8;
     }
 
-    display: flex;
-    justify-content: center;
-    align-items: center; 
 
     p {
+      margin:0;
       color: white;
+      font-family: poppins;
     }
   }
-`
-
-
+`;
