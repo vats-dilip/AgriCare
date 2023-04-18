@@ -1,12 +1,5 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-  Link,
-  createBrowserRouter,
-  resolvePath,
-  useMatch,
-  useResolvedPath,
-} from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { initializeApp } from "firebase/app";
@@ -17,8 +10,10 @@ import {
   getAuth,
   GoogleAuthProvider,
 } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 function Header() {
+
   const [islogged, setIsLogged] = useState(false);
   const [authText, setAuthText] = useState("Login");
 
@@ -82,21 +77,21 @@ function Header() {
       </div>
       <div className="lower">
         <div className="button-container">
-          <div className="home">
+          <Link to="/home" className="home">
             <p>Home</p>
-          </div>
-          <div className="scheme">
+          </Link>
+          <Link to="/scheme" className="scheme">
             <p>Scheme & Services</p>
-          </div>
-          <div className="prediction">
+          </Link>
+          <Link to="/cropPredcition" className="prediction">
             <p>Crop Prediction</p>
-          </div>
-          <div className="news">
+          </Link>
+          <Link className="news">
             <p> News</p>
-          </div>
-          <div className="forecast">
+          </Link>
+          <Link to="/forecast" className="forecast">
             <p>Weather Forecast</p>
-          </div>
+          </Link>
         </div>
       </div>
 
@@ -109,6 +104,7 @@ function Header() {
 export default Header;
 
 const Container = styled.div`
+  position: fixed;
   width: 100%;
   height: 9.3rem;
   display: flex;
@@ -116,7 +112,7 @@ const Container = styled.div`
   align-items: center;
   position: fixed;
   z-index: 10;
-  background-color: white;
+  /* background-color: white; */
 
   .upper {
     min-height: 6.8rem;

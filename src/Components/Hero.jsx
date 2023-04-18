@@ -1,11 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import Slider from 'react-slick'
+import React from "react";
+import styled from "styled-components";
+import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
 
 function Hero() {
-
   let settings = {
     dots: false,
     infinite: true,
@@ -13,33 +12,36 @@ function Hero() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000
-  }
+    autoplaySpeed: 4000,
+  };
 
   return (
     <Container>
-      <SliderContainer {...settings}>
-        <div className='image-container'>
-          <img src="/images/farm-1.jpg"/>
+      This is hero section
+      {/* <SliderContainer {...settings}>
+        <div className="image-container">
+          <img src="/images/farm-1.jpg" />
         </div>
-        {/* <div className='image-container'>
-          <img src="/images/farm-2.webp"/>
-        </div> */}
-      </SliderContainer>
+        <div className="image-container">
+          <img src="/images/farm-2.webp" />
+        </div>
+      </SliderContainer> */}
     </Container>
-  )
+  );
 }
 
-export default Hero
+export default Hero;
 
 const Container = styled.div`
   width: 100%;
-  height: 30rem;
+  /* height: 30rem; */
+
+  height: calc(100vh - 9.3rem);
   background-color: lightblue;
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const SliderContainer = styled(Slider)`
   width: 100%;
@@ -50,7 +52,6 @@ const SliderContainer = styled(Slider)`
     width: 100%;
     height: 100%;
 
-
     overflow: hidden;
     background-color: blue;
 
@@ -60,7 +61,7 @@ const SliderContainer = styled(Slider)`
 
     img {
       width: 100%;
-      height: 100%
+      height: 100%;
     }
   }
-`
+`;
