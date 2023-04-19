@@ -112,7 +112,7 @@ const Container = styled.div`
   align-items: center;
   position: fixed;
   z-index: 10;
-  /* background-color: white; */
+  background-color: white;
 
   .upper {
     min-height: 6.8rem;

@@ -26,15 +26,18 @@ function SchemeCard() {
 export default SchemeCard;
 
 const Container = styled.div`
-  width: 80%;
+  /* width: 80%; */
+  width: 101rem;
   height: 14.5rem;
-  border: 1px solid black;
+  border: 1px solid #bbb9b9ae;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   font-family: poppins;
+  background-color: white;
+  box-shadow: 3px 3px 6px #d6d6d66b;
 
   .left {
     flex: 1;
@@ -43,9 +46,9 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
     gap: 5px;
 
     .name {
@@ -56,6 +59,7 @@ const Container = styled.div`
       align-items: center;
       font-weight: 700;
       font-size: 17px;
+      color: darkgreen;
     }
 
     .description {
@@ -66,6 +70,7 @@ const Container = styled.div`
       align-items: start;
       font-family: 16px;
       font-weight: 500;
+      color: #000000e1;
     }
 
     .buttons {
@@ -83,7 +88,7 @@ const Container = styled.div`
         justify-content: center;
         align-items: center;
         border-radius: 5px;
-        background-color: #000000df;
+        background-color: #1c1b1b;
         color: white;
       }
 
@@ -95,7 +100,7 @@ const Container = styled.div`
         align-items: center;
         border-radius: 5px;
         cursor: pointer;
-        background-color: darkgreen;
+        background-color: #006400eb;
         color: white;
         transition: opacity 0.25s;
         
@@ -114,7 +119,7 @@ const Container = styled.div`
   .right {
     width: 18rem;
     height: 100%;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
