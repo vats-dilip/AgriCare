@@ -87,7 +87,7 @@ function Header() {
           <Link to="/scheme" className="scheme">
             <p>Scheme & Services</p>
           </Link>
-          <Link to="/cropPredcition" className="prediction">
+          <Link to="/cropPredicition" className="prediction">
             <p>Crop Prediction</p>
           </Link>
           <Link className="news">
@@ -109,7 +109,7 @@ export default Header;
 const Container = styled.div`
   position: fixed;
   width: 100%;
-  height: 9.3rem;
+  height: 7.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -118,7 +118,7 @@ const Container = styled.div`
   background-color: white;
 
   .upper {
-    min-height: 6.8rem;
+    min-height: 6rem;
     width: 90%;
     display: flex;
     justify-content: center;
@@ -146,7 +146,7 @@ const Container = styled.div`
       p {
         font-weight: 400;
         color: white;
-        font-size: 14px;
+        font-size: 13px;
         margin: 0;
         margin-top: 2px;
         font-family: poppins;
@@ -180,7 +180,6 @@ const Container = styled.div`
 const Right = styled.div`
   height: 100%;
   flex: 1;
-  /* margin-left: 4.5rem; */
   display: flex;
   justify-content: start;
   align-items: center;
@@ -195,8 +194,8 @@ const Right = styled.div`
     /* background-color: blue; */
 
     img {
-      height: 5.2rem;
-      width: 5.2rem;
+      height: 4.5rem;
+      width: 4.5rem;
       object-fit: cover;
       object-position: top;
     }
@@ -212,11 +211,11 @@ const Right = styled.div`
 
     p {
       margin: 0;
-      margin-left: 1.7rem;
+      margin-left: 1rem;
       margin-top: 4px;
       font-family: poppins;
       font-weight: 700;
-      font-size: 36px;
+      font-size: 32px;
     }
   }
 `;
@@ -238,7 +237,7 @@ const Left = styled.div`
 
   .login-button {
     margin-top: 8px;
-    height: 3.5rem;
+    height: 3.1rem;
     width: 7.5rem;
     background-color: black;
     border-radius: 40px;

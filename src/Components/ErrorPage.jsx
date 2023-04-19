@@ -34,7 +34,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f7f7f8;
+  background-color: #f8fff5;
+
   .up {
     display: flex;
     flex-direction: column;
@@ -75,20 +76,23 @@ const Container = styled.div`
     justify-content: center;
     align-items: start;
     .goHome {
-      width: 9rem;
-      height: 2.5rem;
-      border: 1px solid black;
+      width: 10.2rem;
+      height: 3rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: black;
+      background-color: darkgreen;
       color: white;
       border-radius: 5px;
       cursor: pointer;
       transition: opacity 0.15s;
+
       p {
         margin: 0;
+        margin-top: 2px;
+        font-family: poppins;
       }
+
       &:hover {
         opacity: 0.9;
       }

@@ -5,11 +5,11 @@ import "./index.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Hero from "./Components/Hero";
-import SchemAndServices from "./Components/schemAndServices";
-import Crop_prediction from "./Components/Crop_prediction";
+import SchemesAndServices from "./Components/SchemesAndServices";
 import Weather_forcast from "./Components/WeatherForecast";
 import ErrorPage from "./Components/ErrorPage";
 import { AuthProvider } from "./AuthContext";
+import CropPrediction from "./Components/CropPrediction";
 
 const router = createBrowserRouter([
   {
@@ -24,11 +24,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/scheme",
-        element: <SchemAndServices />,
+        element: <SchemesAndServices />,
       },
       {
-        path: "/cropPredcition",
-        element: <Crop_prediction />,
+        path: "/cropPredicition",
+        element: <CropPrediction />,
       },
       {
         path: "/forecast",

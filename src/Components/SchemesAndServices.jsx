@@ -1,26 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SchemeCard from "./SchemeCard";
 
-const SchemAndServices = () => {
+const SchemesAndServices = () => {
+  const [schemes, setSchemes] = useState([]);
+
+  const fetchSchemes = async () => {
+    await fetch("http://localhost:8080/getAllSchemes")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSchemes(data);
+      });
+  };
+
+  useEffect(() => {
+    fetchSchemes();
+  }, []);
+
+  const cards = schemes.map((card) => {
+    return (
+      <SchemeCard
+        key={card._id}
+        name={card.name}
+        description={card.description}
+        image={card.image}
+        sector={card.sector}
+      />
+    );
+  });
+
+  console.log(schemes);
+
   return (
     <Container>
       <div className="scheme-container">
         <div className="heading">
           <p>Schemes & Services</p>
         </div>
-        <SchemeCard />
-        <SchemeCard />
-        <SchemeCard />
-        <SchemeCard />
-        <SchemeCard />
-        <SchemeCard />
+        {cards}
       </div>
     </Container>
   );
 };
 
-export default SchemAndServices;
+export default SchemesAndServices;
 
 const Container = styled.div`
   min-height: 100vh;
@@ -34,11 +62,11 @@ const Container = styled.div`
   overflow-x: hidden;
 
   .scheme-container {
-    width: 65%;
+    width: 70%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     gap: 2.5rem;
     background-color: white;
@@ -46,9 +74,9 @@ const Container = styled.div`
     padding-bottom: 2.5rem;
 
     .heading {
-      margin-top: 3rem;
+      margin-top: 2.8rem;
       width: 101rem;
-      height: 5rem;
+      height: 4rem;
       border-bottom: 1px solid #bbb9b9ae;
       display: flex;
       justify-content: start;
@@ -59,7 +87,7 @@ const Container = styled.div`
         margin: 0;
         margin-bottom: 10px;
         font-family: poppins;
-        font-size: 35px;
+        font-size: 32px;
         font-weight: 500;
         color: darkgreen;
       }
