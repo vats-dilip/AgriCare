@@ -30,7 +30,6 @@ func main() {
 	}
 
 	atlasConnectionURI = os.Getenv("MONGO_DB")
-	fmt.Println(atlasConnectionURI)
 
 	var app agriApp
 
@@ -50,7 +49,6 @@ func main() {
 
 func GetDb() (*mongo.Database, error) {
 	opts := options.Client().ApplyURI(atlasConnectionURI)
-
 	client, err := mongo.Connect(context.TODO(), opts)
 
 	if err != nil {
@@ -58,9 +56,7 @@ func GetDb() (*mongo.Database, error) {
 	} else {
 
 		// check database connection
-
 		err = client.Ping(context.TODO(), nil)
-
 		if err != nil {
 			log.Fatal(err)
 		} else {
@@ -69,6 +65,5 @@ func GetDb() (*mongo.Database, error) {
 	}
 
 	db := client.Database("agriApp")
-
 	return db, nil
 }

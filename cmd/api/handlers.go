@@ -9,7 +9,10 @@ import (
 	"net/http"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
+
+var db *mongo.Database = nil
 
 func (app *agriApp) Home(w http.ResponseWriter, r *http.Request) {
 	var payload = struct {
@@ -23,13 +26,20 @@ func (app *agriApp) Home(w http.ResponseWriter, r *http.Request) {
 		Version:      "1.0.0",
 	}
 
-	db, err := GetDb()
-	dbErr := db.Client().Ping(context.TODO(), nil)
-	if err != nil {
-		log.Fatal(dbErr)
-	} else {
-		payload.DbStatus = true
+	if db == nil {
+
+		var err error
+		db, err = GetDb()
+		dbErr := db.Client().Ping(context.TODO(), nil)
+
+		if err != nil {
+			log.Fatal(dbErr)
+		} else {
+			payload.DbStatus = true
+		}
+
 	}
+
 	out, err := json.Marshal(payload)
 	if err != nil {
 		fmt.Println(err)
@@ -41,11 +51,15 @@ func (app *agriApp) Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *agriApp) GetAllSchemes(w http.ResponseWriter, r *http.Request) {
-	db, err := GetDb()
 
-	if err != nil {
-		fmt.Println("Here 1")
-		log.Fatal(err)
+	if db == nil {
+		var err error
+		db, err = GetDb()
+		dbErr := db.Client().Ping(context.TODO(), nil)
+
+		if err != nil {
+			log.Fatal(dbErr)
+		}
 	}
 
 	collection := db.Collection("scheme")
