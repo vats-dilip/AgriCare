@@ -5,4 +5,5 @@ type Schemes struct {
 	Name        string `json:"name" bson:"name"`
 	Sector      string `json:"sector" bson:"sector"`
 	Description string `json:"description" bson:"description"`
+	Image       string `json:"image" bson:"image"`
 }
