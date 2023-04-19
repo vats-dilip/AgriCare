@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,11 +11,13 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../AuthContext";
 
 function Header() {
-
-  const [islogged, setIsLogged] = useState(false);
   const [authText, setAuthText] = useState("Login");
+  const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
+
+  /*-----------------------Firebase authentication----------------------*/
 
   const firebaseConfig = {
     apiKey: "AIzaSyD9fYxXGJ6OhtfbwGpcKt5BADZ_FOiAlGM",
@@ -31,13 +33,14 @@ function Header() {
   const provider = new GoogleAuthProvider();
 
   const loginHandler = () => {
-    if (islogged) {
+    if (isAuthenticated) {
+      // authenticated then log out
       signOut(auth).then((response) => {
-        setAuthText("Login");
-        setIsLogged(false);
+        setIsAuthenticated(false);
         toast.success("Logged Out", {
           position: toast.POSITION.TOP_CENTER,
         });
+        setAuthText("Login");
       });
     } else {
       // login
@@ -47,8 +50,7 @@ function Header() {
           toast.success("Logged In", {
             position: toast.POSITION.TOP_CENTER,
           });
-          console.log(result);
-          setIsLogged(true);
+          setIsAuthenticated(true);
           setAuthText("Logout");
         })
         .catch((err) => {
@@ -56,6 +58,8 @@ function Header() {
         });
     }
   };
+
+  /*--------------------------------------------------------------------*/
 
   return (
     <Container>
@@ -99,7 +103,6 @@ function Header() {
     </Container>
   );
 }
-
 
 export default Header;
 
@@ -183,7 +186,6 @@ const Right = styled.div`
   align-items: center;
   overflow: hidden;
 
-
   .logo-container {
     height: 100%;
     width: 5rem;
@@ -217,7 +219,7 @@ const Right = styled.div`
       font-size: 36px;
     }
   }
-`
+`;
 
 const Menu = styled.div`
   height: 100%;
@@ -225,7 +227,7 @@ const Menu = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Left = styled.div`
   height: 100%;
@@ -254,9 +256,8 @@ const Left = styled.div`
       opacity: 0.8;
     }
 
-
     p {
-      margin:0;
+      margin: 0;
       color: white;
       font-family: poppins;
     }

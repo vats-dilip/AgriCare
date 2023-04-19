@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Weather_forcast = () => {
+const WeatherForecast = () => {
   const [city, setCity] = useState(null);
   const [search, setSearch] = useState("");
 
@@ -21,7 +21,7 @@ const Weather_forcast = () => {
   return (
     <>
       <Container className="box">
-      <h1>Current Weather</h1>
+        <h1>Current Weather</h1>
         <div className="inputdata">
           <input
             type="search"
@@ -35,8 +35,6 @@ const Weather_forcast = () => {
 
         {!city ? (
           <p>no data available</p>
-         
-         
         ) : (
           <div>
             <div className="info">
@@ -52,35 +50,32 @@ const Weather_forcast = () => {
   );
 };
 
-export default Weather_forcast;
+export default WeatherForecast;
 
 const Container = styled.div`
-width: 500px;
-align-items: center;
-padding: 1.5rem;
+  width: 500px;
+  align-items: center;
+  padding: 1.5rem;
   box-shadow: 0 0 2px;
   margin: 1rem 0;
   border-radius: 8px;
   margin-left: 250px;
   margin-right: 250px;
 
-  .info{
-
-    .location{
-    font-family: roboto;
-    text-transform: capitalize;
-  }
-
-    .temp{
+  .info {
+    .location {
       font-family: roboto;
       text-transform: capitalize;
     }
 
-    h2{
+    .temp {
       font-family: roboto;
-      text-transform: capitalize; 
+      text-transform: capitalize;
     }
 
+    h2 {
+      font-family: roboto;
+      text-transform: capitalize;
+    }
   }
-  
-  `
+`;

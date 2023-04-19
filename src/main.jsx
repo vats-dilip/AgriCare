@@ -7,8 +7,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Hero from "./Components/Hero";
 import SchemAndServices from "./Components/schemAndServices";
 import Crop_prediction from "./Components/Crop_prediction";
-import Weather_forcast from "./Components/Weather_forcast";
+import Weather_forcast from "./Components/WeatherForecast";
 import ErrorPage from "./Components/ErrorPage";
+import { AuthProvider } from "./AuthContext";
 
 const router = createBrowserRouter([
   {
@@ -39,8 +40,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <AuthProvider>
+      <RouterProvider router={router}>
+        <App />
+      </RouterProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
