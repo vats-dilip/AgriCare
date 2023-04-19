@@ -57,7 +57,7 @@ const Container = styled.div`
   border-radius: 8px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   background-color: #f8fff5;
   overflow-x: hidden;
 

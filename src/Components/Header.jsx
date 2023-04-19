@@ -16,6 +16,8 @@ import { AuthContext } from "../AuthContext";
 function Header() {
   const [authText, setAuthText] = useState("Login");
   const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
+  const [userName, setUserName] = useState("");
+  const [profileImage, setProfileImage] = useState("");
 
   /*-----------------------Firebase authentication----------------------*/
 
@@ -32,6 +34,20 @@ function Header() {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
+  useEffect(() => {
+    auth.onAuthStateChanged(function (user) {
+      if (user) {
+        setIsAuthenticated(true);
+        setUserName(user.displayName);
+        setProfileImage(user.photoURL);
+        setAuthText("Logout");
+      } else {
+        setIsAuthenticated(false);
+        setAuthText("Login");
+      }
+    });
+  }, []);
+
   const loginHandler = () => {
     if (isAuthenticated) {
       // authenticated then log out
@@ -46,11 +62,12 @@ function Header() {
       // login
       signInWithPopup(auth, provider)
         .then((result) => {
-          console.log("user is : ", result.user);
+          setUserName(result.user.displayName);
+          setProfileImage(result.user.photoURL);
+          setIsAuthenticated(true);
           toast.success("Logged In", {
             position: toast.POSITION.TOP_CENTER,
           });
-          setIsAuthenticated(true);
           setAuthText("Logout");
         })
         .catch((err) => {
@@ -74,6 +91,18 @@ function Header() {
         </Right>
         <Menu></Menu>
         <Left>
+          <div className="detail-container">
+            {isAuthenticated && (
+              <div className="detail">
+                <div className="photo">
+                  <img src={profileImage} />
+                </div>
+                <div className="name-div">
+                  <p>{userName}</p>
+                </div>
+              </div>
+            )}
+          </div>
           <div className="login-button" onClick={loginHandler}>
             <p>{authText}</p>
           </div>
@@ -222,7 +251,7 @@ const Right = styled.div`
 
 const Menu = styled.div`
   height: 100%;
-  flex: 4;
+  flex: 3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -232,8 +261,61 @@ const Left = styled.div`
   height: 100%;
   flex: 1;
   display: flex;
-  justify-content: end;
+  justify-content: center;
   align-items: center;
+
+  .detail-container {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .detail {
+      margin-top: 6px;
+      height: 80%;
+      min-width: 85%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+      .photo {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-right: 1px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 3.5rem;
+        border: 1px solid darkgreen;
+
+        img {
+          width: 4rem;
+          height: 4rem;
+          object-fit: contain;
+        }
+      }
+
+      .name-div {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+
+        p {
+          margin: 0;
+          margin-left: 10px;
+          font-family: poppins;
+          font-size: 16px;
+          font-weight: 600;
+          color: drakgreen;
+        }
+      }
+    }
+  }
 
   .login-button {
     margin-top: 8px;
