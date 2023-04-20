@@ -138,3 +138,41 @@ func (app *agriApp) RegisterUserToScheme(w http.ResponseWriter, r *http.Request)
 	w.Write(jsonResponse)
 
 }
+
+func (app *agriApp) PostNews(w http.ResponseWriter, r *http.Request) {
+	var newsToAdd models.News
+
+	err := json.NewDecoder(r.Body).Decode(&newsToAdd)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if db == nil {
+		var err error
+		db, err = GetDb()
+		dbErr := db.Client().Ping(context.TODO(), nil)
+
+		if err != nil {
+			log.Fatal(dbErr)
+		}
+	}
+
+	collection := db.Collection("news")
+	result, err := collection.InsertOne(context.Background(), newsToAdd)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	jsonResponse, err := json.Marshal(result.InsertedID)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonResponse)
+}
