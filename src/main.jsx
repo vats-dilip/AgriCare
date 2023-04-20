@@ -11,6 +11,7 @@ import ErrorPage from "./Components/ErrorPage";
 import { AuthProvider } from "./AuthContext";
 import CropPrediction from "./Components/CropPrediction";
 import Apply from "./Components/Apply";
+import News from "./Components/News";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/forecast",
         element: <Weather_forcast />,
+      },
+      {
+        path: "/news",
+        element: <News />,
       },
     ],
   },

@@ -15,7 +15,8 @@ import { AuthContext } from "../AuthContext";
 
 function Header() {
   const [authText, setAuthText] = useState("Login");
-  const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
+  const [isAuthenticated, setIsAuthenticated, isAdmin, setIsAdmin] =
+    useContext(AuthContext);
   const [userName, setUserName] = useState("");
   const [profileImage, setProfileImage] = useState("");
 
@@ -38,6 +39,11 @@ function Header() {
     auth.onAuthStateChanged(function (user) {
       if (user) {
         setIsAuthenticated(true);
+        if (user.email === "dilipvats3@gmail.com") {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
         setUserName(user.displayName);
         setProfileImage(user.photoURL);
         setAuthText("Logout");
@@ -98,7 +104,12 @@ function Header() {
                   <img src={profileImage} />
                 </div>
                 <div className="name-div">
-                  <p>{userName}</p>
+                  <p className="name">{userName}</p>
+                  {isAdmin && (
+                    <div className="admin">
+                      <p>Admin</p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -110,16 +121,34 @@ function Header() {
       </div>
       <div className="lower">
         <div className="button-container">
-          <Link to="/home" className="home">
+          <Link
+            to="/home"
+            className="home"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
             <p>Home</p>
           </Link>
-          <Link to="/scheme" className="scheme">
+          <Link
+            to="/scheme"
+            className="scheme"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
             <p>Scheme & Services</p>
           </Link>
           <Link to="/cropPredicition" className="prediction">
             <p>Crop Prediction</p>
           </Link>
-          <Link className="news">
+          <Link
+            to="/news"
+            className="news"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
             <p> News</p>
           </Link>
           <Link to="/forecast" className="forecast">
@@ -302,16 +331,37 @@ const Left = styled.div`
         flex: 1;
         height: 100%;
         display: flex;
-        justify-content: start;
-        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
 
-        p {
+        .name {
           margin: 0;
           margin-left: 10px;
           font-family: poppins;
           font-size: 16px;
           font-weight: 600;
           color: drakgreen;
+        }
+
+        .admin {
+          margin-top: 2px;
+          width: 35%;
+          margin-left: 10px;
+          font-family: poppins;
+          font-size: 10px;
+          font-weight: 500;
+          color: drakgreen;
+          border: 1px solid darkgreen;
+          box-sizing: border-box;
+          border-radius: 3px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          p {
+            margin: 0;
+          }
         }
       }
     }
