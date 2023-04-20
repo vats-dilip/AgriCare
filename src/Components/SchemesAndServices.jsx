@@ -56,7 +56,7 @@ const SchemesAndServices = () => {
           <p>Schemes & Services</p>
         </div>
         <div className="scheme-container">
-          {isApplyActive && <Apply />}
+          {isApplyActive && <Apply schemes={schemes} />}
           {!isApplyActive && cards}
         </div>
       </div>

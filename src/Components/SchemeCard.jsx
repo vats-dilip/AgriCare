@@ -1,6 +1,9 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SchemeCard({
   image,
@@ -13,16 +16,19 @@ function SchemeCard({
   onApplyClick,
 }) {
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
 
   const applyHandler = () => {
-    navigate(`/scheme/apply/${id}`);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    onApplyClick();
+    if (isAuthenticated) {
+      navigate(`/scheme/apply/${id}`);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      onApplyClick();
+    } else {
+      toast.info("Login to register!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
-
-  const goBack = () => {};
-
-  // console.log("isApplyActive for id : ", id, isApplyActive);
 
   return (
     <Container>
@@ -38,7 +44,11 @@ function SchemeCard({
       </div>
       <div className="right">
         <img src={image} />
+        <div className="for-id">
+          <p>{id}</p>
+        </div>
       </div>
+      <ToastContainer autoClose={1000} hideProgressBar={true} />
     </Container>
   );
 }
@@ -139,12 +149,33 @@ const Container = styled.div`
   }
 
   .right {
+    position: relative;
     width: 18rem;
     height: 100%;
     padding: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .for-id {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.8rem;
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 0.3rem;
+      z-index: 2;
+      background-color: darkgreen;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        margin: 0;
+        color: white;
+        font-size: 13px;
+      }
+    }
 
     img {
       width: 100%;
