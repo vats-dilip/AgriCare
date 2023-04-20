@@ -100,3 +100,37 @@ func (app *agriApp) GetAllSchemes(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(jsonResponse)
 }
+
+func (app *agriApp) RegisterUserToScheme(w http.ResponseWriter, r *http.Request) {
+
+	var registrationData models.RegistrationForm
+
+	if db == nil {
+		var err error
+		db, err = GetDb()
+		dbErr := db.Client().Ping(context.TODO(), nil)
+
+		if err != nil {
+			log.Fatal(dbErr)
+		}
+	}
+
+	collection := db.Collection("scheme")
+	result, err := collection.InsertOne(context.Background(), registrationData)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	jsonResponse, err := json.Marshal(result.InsertedID)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonResponse)
+
+}
