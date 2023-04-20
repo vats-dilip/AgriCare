@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
+import random from "random-string-generator";
 
 function Apply({ schemes }) {
   const navigate = useNavigate();
@@ -24,11 +27,49 @@ function Apply({ schemes }) {
     navigate("/scheme");
   };
 
-  console.log(name);
-  console.log(email);
-  console.log(phoneNumber);
-  console.log(aadharNumber);
-  console.log(address);
+  const registerHandler = async () => {
+    let registrationid = random("numeric").slice(0, 4);
+
+    let userRegistrationData = {
+      registrationId: registrationid,
+      name: name,
+      mobileNumber: phoneNumber,
+      emailId: email,
+      aadharNumber: aadharNumber,
+      address: address,
+      schemeId: id,
+      schemeName: scheme.name,
+    };
+
+    console.log("test : ", userRegistrationData);
+
+    try {
+      await fetch("http://localhost:8080/registerUserToScheme", {
+        method: "POST",
+        body: JSON.stringify(userRegistrationData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          toast.success("Registration Successful!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          toast.error("Registration failed!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        });
+    } catch (error) {
+      console.log("failed to register user");
+      toast.error("Registration failed!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  };
 
   return (
     <Container>
@@ -88,11 +129,12 @@ function Apply({ schemes }) {
           <div className="scheme-div">
             <p>Registring for scheme {id}</p>
           </div>
-          <div className="register-btn">
+          <div className="register-btn" onClick={registerHandler}>
             <p>Register</p>
           </div>
         </div>
       </div>
+      <ToastContainer autoClose={1000} hideProgressBar={true} />
     </Container>
   );
 }
