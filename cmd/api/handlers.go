@@ -105,6 +105,12 @@ func (app *agriApp) RegisterUserToScheme(w http.ResponseWriter, r *http.Request)
 
 	var registrationData models.RegistrationForm
 
+	err := json.NewDecoder(r.Body).Decode(&registrationData)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	if db == nil {
 		var err error
 		db, err = GetDb()
@@ -115,7 +121,7 @@ func (app *agriApp) RegisterUserToScheme(w http.ResponseWriter, r *http.Request)
 		}
 	}
 
-	collection := db.Collection("scheme")
+	collection := db.Collection("userRegistrationToSchemes")
 	result, err := collection.InsertOne(context.Background(), registrationData)
 
 	if err != nil {

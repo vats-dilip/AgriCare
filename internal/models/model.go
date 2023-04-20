@@ -9,7 +9,7 @@ type Schemes struct {
 }
 
 type RegistrationForm struct {
-	RegistrationId string `json:"registrationId" bson:"regsitrationId"`
+	RegistrationId string `json:"registrationId" bson:"registrationId"`
 	Name           string `json:"name" bson:"name"`
 	MobileNumber   string `json:"mobileNumber" bson:"mobileNumber"`
 	EmailId        string `json:"emailId" bson:"emailId"`
