@@ -1,7 +1,29 @@
-import React from "react";
+import React, { createContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-function SchemeCard({ image, name, description, sector }) {
+function SchemeCard({
+  image,
+  name,
+  description,
+  sector,
+  id,
+  setIsApplyActive,
+  isApplyActive,
+  onApplyClick,
+}) {
+  const navigate = useNavigate();
+
+  const applyHandler = () => {
+    navigate(`/scheme/apply/${id}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    onApplyClick();
+  };
+
+  const goBack = () => {};
+
+  // console.log("isApplyActive for id : ", id, isApplyActive);
+
   return (
     <Container>
       <div className="left">
@@ -9,7 +31,9 @@ function SchemeCard({ image, name, description, sector }) {
         <div className="description">{description}</div>
         <div className="buttons">
           <div className="sector">{sector}</div>
-          <div className="apply-btn">Apply</div>
+          <div className="apply-btn" onClick={applyHandler}>
+            Apply
+          </div>
         </div>
       </div>
       <div className="right">
@@ -101,6 +125,7 @@ const Container = styled.div`
         color: white;
         transition: opacity 0.25s;
         font-size: 12px;
+        text-decoration: none;
 
         &:hover {
           opacity: 0.9;

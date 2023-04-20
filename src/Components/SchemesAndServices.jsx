@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import SchemeCard from "./SchemeCard";
+import Apply from "./Apply";
+import { useLocation } from "react-router";
 
 const SchemesAndServices = () => {
-  const [schemes, setSchemes] = useState([]);
+  const [schemes, setSchemes] = useState([{}]);
+  const [isApplyActive, setIsApplyActive] = useState(false);
+
+  const location = useLocation();
+
+  const handleApplyClick = () => {
+    setIsApplyActive(true);
+  };
 
   const fetchSchemes = async () => {
     await fetch("http://localhost:8080/getAllSchemes")
@@ -19,30 +28,37 @@ const SchemesAndServices = () => {
   };
 
   useEffect(() => {
+    if (location.pathname === "/scheme") {
+      setIsApplyActive(false);
+    }
     fetchSchemes();
-  }, []);
+  }, [location.pathname]);
 
   const cards = schemes.map((card) => {
     return (
       <SchemeCard
-        key={card._id}
+        id={card._id}
         name={card.name}
         description={card.description}
         image={card.image}
         sector={card.sector}
+        isApplyActive={isApplyActive}
+        setIsApplyActive={setIsApplyActive}
+        onApplyClick={handleApplyClick}
       />
     );
   });
 
-  console.log(schemes);
-
   return (
     <Container>
-      <div className="scheme-container">
+      <div className="center-container">
         <div className="heading">
           <p>Schemes & Services</p>
         </div>
-        {cards}
+        <div className="scheme-container">
+          {isApplyActive && <Apply />}
+          {!isApplyActive && cards}
+        </div>
       </div>
     </Container>
   );
@@ -61,22 +77,23 @@ const Container = styled.div`
   background-color: #f8fff5;
   overflow-x: hidden;
 
-  .scheme-container {
-    width: 70%;
-    height: 100%;
+  .center-container {
     display: flex;
+    min-height: 85vh;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2.5rem;
     background-color: white;
-    box-shadow: 3px 1px 10px #d6d6d66d;
+    box-shadow: 3px 2px 10px #d6d6d690;
+    border-radius: 5px;
     padding-bottom: 2.5rem;
+    width: 69%;
+    gap: 2.5rem;
 
     .heading {
       margin-top: 2.8rem;
       width: 101rem;
-      height: 4rem;
+      height: 4.5rem;
       border-bottom: 1px solid #bbb9b9ae;
       display: flex;
       justify-content: start;
@@ -91,6 +108,17 @@ const Container = styled.div`
         font-weight: 500;
         color: darkgreen;
       }
+    }
+
+    .scheme-container {
+      /* background-color: blue; */
+      flex: 1;
+      width: 101rem;
+      display: flex;
+      flex-direction: column;
+      /* justify-content: center; */
+      align-items: center;
+      gap: 2.5rem;
     }
   }
 `;
