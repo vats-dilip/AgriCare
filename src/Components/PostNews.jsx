@@ -1,16 +1,95 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import * as filestack from "filestack-js";
+import "react-toastify/dist/ReactToastify.css";
+import ClipLoader from "react-spinners/ClipLoader";
+import { ToastContainer, toast } from "react-toastify";
+import date from "date-and-time";
+import "react-toastify/dist/ReactToastify.css";
 
 function PostNews() {
   const [heading, setHeading] = useState("");
   const [article, setArticle] = useState("");
-  const [creationTime, setCreationTime] = useState("");
   const [source, setSource] = useState("");
   const [sourceLink, setSourceLink] = useState("");
   const [imageLink, setImageLink] = useState("");
+  const [isUploding, setIsUploading] = useState(false);
 
-  const postNewsHandler = () => {
-    console.log("clicked!");
+  const fileInputRef = useRef(null);
+
+  const client = filestack.init("APcL5FoBJQqWnTqV8VGQSz");
+
+  const uploadImageHandler = () => {
+    fileInputRef.current.click();
+  };
+
+  const uploadImageOnChange = (event) => {
+    setIsUploading(true);
+    const fileInput = document.getElementById("image-upload");
+    const files = fileInput.files[0];
+
+    // upload image to filestack and get back the image url
+    client
+      .upload(files)
+      .then((response) => {
+        if (response.url != "") {
+          setIsUploading(false);
+          setImageLink(response.url);
+          toast.success("Image Uploaded", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsUploading(false);
+        toast.error("Failed to upload image!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      });
+  };
+
+  const postNewsHandler = async () => {
+    let pattern = date.compile("MMM D YYYY h:m:s A");
+    let creationTime = date.format(new Date(), pattern);
+
+    let news = {
+      newsHeading: heading,
+      newsArticle: article,
+      createdAt: creationTime,
+      newsSource: source,
+      newsSourceLink: sourceLink,
+      imageLink: imageLink,
+    };
+
+    console.log("news is : ", news);
+
+    try {
+      await fetch("http://localhost:8080/postNews", {
+        method: "POST",
+        body: JSON.stringify(news),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          toast.success("News Posted!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          toast.error("Failed to post News!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        });
+    } catch (error) {
+      console.log("failed to register user");
+      toast.error("Failed to post News!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
 
   return (
@@ -58,11 +137,29 @@ function PostNews() {
       </div>
       <div className="line"></div>
       <div className="image-post">
-        <div className="upload-image">Upload Image</div>
+        <div className="upload-image" onClick={uploadImageHandler}>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={uploadImageOnChange}
+            id="image-upload"
+          />
+          {!isUploding && (
+            <p
+              style={{
+                marginTop: "11px",
+              }}
+            >
+              Upload Image
+            </p>
+          )}
+          {isUploding && <ClipLoader color="#ffffff" size={16} />}
+        </div>
         <div className="post-btn" onClick={postNewsHandler}>
           <p>Post News</p>
         </div>
       </div>
+      <ToastContainer autoClose={1000} hideProgressBar={true} />
     </Container>
   );
 }
@@ -191,6 +288,12 @@ const Container = styled.form`
       color: white;
       cursor: pointer;
       transition: opacity 0.25s;
+
+      input {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+      }
 
       &:hover {
         opacity: 0.9;
