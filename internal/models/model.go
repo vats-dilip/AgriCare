@@ -1,5 +1,12 @@
 package models
 
+type ServerMetaData struct {
+	ServerStatus string `json:"serverStatus" bson:"serverStatus"`
+	DbStatus     bool   `json:"dbStatus" bson:"dbStatus"`
+	Message      string `json:"message" bson:"message"`
+	Version      string `json:"version" bson:"version"`
+}
+
 type Schemes struct {
 	Id          string `json:"_id" bson:"_id"`
 	Name        string `json:"name" bson:"name"`

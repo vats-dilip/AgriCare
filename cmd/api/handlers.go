@@ -15,24 +15,22 @@ import (
 var db *mongo.Database = nil
 
 func (app *agriApp) Home(w http.ResponseWriter, r *http.Request) {
-	var payload = struct {
-		ServerStatus string `json:"serverStatus"`
-		DbStatus     bool   `json:"dbStatus"`
-		Message      string `json:"message"`
-		Version      string `json:"version"`
-	}{
-		ServerStatus: "active",
-		Message:      "AgriCare API",
-		Version:      "1.0.0",
-	}
+
+	var payload models.ServerMetaData
+
+	payload.Message = "AgriApp Backend API"
+	payload.Version = "1.1.0"
+	payload.ServerStatus = "Online"
+	payload.DbStatus = true
 
 	if db == nil {
-
+		payload.DbStatus = false
 		var err error
 		db, err = GetDb()
 		dbErr := db.Client().Ping(context.TODO(), nil)
 
 		if err != nil {
+
 			log.Fatal(dbErr)
 		} else {
 			payload.DbStatus = true
