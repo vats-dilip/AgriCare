@@ -27,7 +27,7 @@ type RegistrationForm struct {
 }
 
 type News struct {
-	Id             string `json:"_id" bson:"_id"`
+	// Id             string `json:"_id" bson:"_id"`
 	NewsHeading    string `json:"newsHeading" bson:"newsHeading"`
 	NewsArticle    string `json:"newsArticle" bson:"newsArticle"`
 	CreatedAt      string `json:"createdAt" bson:"createdAt"`

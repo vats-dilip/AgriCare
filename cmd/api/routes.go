@@ -16,6 +16,7 @@ func (app *agriApp) routes() http.Handler {
 	mux.Get("/getAllSchemes", app.GetAllSchemes)
 	mux.Post("/registerUserToScheme", app.RegisterUserToScheme)
 	mux.Post("/postNews", app.PostNews)
+	mux.Get("/getAllNews", app.GetAllNews)
 
 	return mux
 }

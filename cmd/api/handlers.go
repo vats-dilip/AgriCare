@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -166,7 +167,58 @@ func (app *agriApp) PostNews(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jsonResponse, err := json.Marshal(result.InsertedID)
+	// jsonResponse, err := json.Marshal(result.InsertedID)
+	jsonResponse, err := json.Marshal(map[string]string{"insertedId": result.InsertedID.(primitive.ObjectID).Hex()})
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonResponse)
+}
+
+func (app *agriApp) GetAllNews(w http.ResponseWriter, r *http.Request) {
+
+	if db == nil {
+		var err error
+		db, err = GetDb()
+		dbErr := db.Client().Ping(context.TODO(), nil)
+
+		if err != nil {
+			log.Fatal(dbErr)
+		}
+	}
+
+	collection := db.Collection("news")
+
+	// maintain a pointer to the collection and keep on adding the document in an array
+	cursor, err := collection.Find(context.Background(), bson.M{})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer cursor.Close(context.Background())
+
+	var allNews []models.News
+
+	for cursor.Next(context.Background()) {
+
+		var currentNews models.News
+		err := cursor.Decode(&currentNews)
+		if err != nil {
+			log.Fatal(err)
+		}
+		allNews = append(allNews, currentNews)
+	}
+
+	if err := cursor.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	jsonResponse, err := json.Marshal(allNews)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
