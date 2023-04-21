@@ -5,7 +5,8 @@ import PostNews from "./PostNews";
 import NewsCard from "./NewsCard";
 
 function News() {
-  const [isAdmin] = useContext(AuthContext);
+  const [isAuthenticated, setIsAuthenticated, isAdmin, setIsAdmin] =
+    useContext(AuthContext);
   const [news, setNews] = useState([]);
 
   const fetchNews = async () => {
@@ -46,10 +47,7 @@ function News() {
         <div className="heading">
           <p>News</p>
         </div>
-        <div className="news-container">
-          {isAdmin && <PostNews />}
-          {!isAdmin && cards}
-        </div>
+        <div className="news-container">{isAdmin ? <PostNews /> : cards}</div>
       </div>
     </Container>
   );

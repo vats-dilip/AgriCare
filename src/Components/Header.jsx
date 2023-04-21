@@ -52,13 +52,14 @@ function Header() {
         setAuthText("Login");
       }
     });
-  }, []);
+  }, [isAuthenticated]);
 
   const loginHandler = () => {
     if (isAuthenticated) {
       // authenticated then log out
       signOut(auth).then((response) => {
         setIsAuthenticated(false);
+        setIsAdmin(false);
         toast.success("Logged Out", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -71,6 +72,11 @@ function Header() {
           setUserName(result.user.displayName);
           setProfileImage(result.user.photoURL);
           setIsAuthenticated(true);
+          if (result.user.email === "dilipvats3@gmail.com") {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
           toast.success("Logged In", {
             position: toast.POSITION.TOP_CENTER,
           });
