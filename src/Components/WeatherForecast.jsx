@@ -1,81 +1,235 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
+// import styled from "styled-components";
+
+// const WeatherForecast = () => {
+//   const [city, setCity] = useState(null);
+//   const [search, setSearch] = useState("");
+
+//   useEffect(() => {
+//     const fetchApi = async () => {
+//       const url = `
+//       https://api.openweathermap.org/data/2.5/weather?q=${search}&units=metric&appid=ccd3999509fce601691d7949baceb89d`;
+//       const response = await fetch(url);
+//       const resJson = await response.json();
+//       console.log(resJson);
+//       setCity(resJson.main);
+//     };
+
+//     fetchApi();
+//   }, [search]);
+
+//   return (
+//     <>
+//       <Container className="box">
+//         <h1>Current Weather</h1>
+//         <div className="inputdata">
+//           <input
+//             type="search"
+//             className="inputfield"
+//             placeholder="enter city"
+//             onChange={(event) => {
+//               setSearch(event.target.value);
+//             }}
+//           />
+//         </div>
+
+//         {!city ? (
+//           <p>no data available</p>
+//         ) : (
+//           <div>
+//             <div className="info">
+//               <h2 className="location">{search}</h2>
+//               <h2 className="temp">temperature : {city.temp}°C</h2>
+//               <h2>feels like : {city.feels_like}°C</h2>
+//               <h2>humidity : {city.humidity}</h2>
+//             </div>
+//           </div>
+//         )}
+//       </Container>
+//     </>
+//   );
+// };
+
+// export default WeatherForecast;
+
+// const Container = styled.div`
+//   width: 500px;
+//   align-items: center;
+//   padding: 1.5rem;
+//   box-shadow: 0 0 2px;
+//   margin: 1rem 0;
+//   border-radius: 8px;
+//   margin-left: 250px;
+//   margin-right: 250px;
+
+//   .info {
+//     .location {
+//       font-family: roboto;
+//       text-transform: capitalize;
+//     }
+
+//     .temp {
+//       font-family: roboto;
+//       text-transform: capitalize;
+//     }
+
+//     h2 {
+//       font-family: roboto;
+//       text-transform: capitalize;
+//     }
+//   }
+// `;
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import forecast from "/images/forecast.png";
 import styled from "styled-components";
 
-const WeatherForecast = () => {
-  const [city, setCity] = useState(null);
-  const [search, setSearch] = useState("");
-
+const WeatherApp = ({ city }) => {
+  const [weatherData, setWeatherData] = useState(null);
+  const [search, setSearch] = useState("Bhubaneshwar");
   useEffect(() => {
-    const fetchApi = async () => {
-      const url = `
-      https://api.openweathermap.org/data/2.5/weather?q=${search}&units=metric&appid=ccd3999509fce601691d7949baceb89d`;
-      const response = await fetch(url);
-      const resJson = await response.json();
-      console.log(resJson);
-      setCity(resJson.main);
+
+    const options = {
+      method: 'GET',
+      url: 'https://apjoy-weather-forecast.p.rapidapi.com/forecast',
+      params: { location: search, days: '14' },
+      headers: {
+        'X-RapidAPI-Key': '55b294e5a7mshbd944956f1f48bfp1e4dd1jsn4e984eb9dcb1',
+        'X-RapidAPI-Host': 'apjoy-weather-forecast.p.rapidapi.com'
+      }
     };
 
-    fetchApi();
+    axios.request(options).then(function (response) {
+      console.log(response.data);
+      setWeatherData(response.data);
+    }).catch(function (error) {
+      console.error(error);
+    });
   }, [search]);
 
   return (
     <>
-      <Container className="box">
-        <h1>Current Weather</h1>
-        <div className="inputdata">
-          <input
-            type="search"
-            className="inputfield"
-            placeholder="enter city"
-            onChange={(event) => {
-              setSearch(event.target.value);
-            }}
-          />
-        </div>
-
-        {!city ? (
-          <p>no data available</p>
-        ) : (
-          <div>
-            <div className="info">
-              <h2 className="location">{search}</h2>
-              <h2 className="temp">temperature : {city.temp}°C</h2>
-              <h2>feels like : {city.feels_like}°C</h2>
-              <h2>humidity : {city.humidity}</h2>
-            </div>
+      <Body>
+        <Container>
+          <Title>Agri Weather</Title>
+          <div className="inputdata">
+            <InputField
+              type="search"
+              className="inputfield"
+              placeholder="enter city"
+              onChange={(event) => {
+                setSearch(event.target.value.toUpperCase());
+              }}
+            />
           </div>
-        )}
-      </Container>
+          {!weatherData ? (
+            <p>no data available</p>
+          ) : (
+            <div>
+              <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                <thead>
+                  <tr style={{ backgroundColor: "#488A0F" }}>
+                    <th style={{ padding: "10px", textAlign: "center" }} colSpan="15">Weather Forecast in {search}</th>
+                  </tr>
+                  <tr style={{ backgroundColor: "#869F39" }}>
+                    <th style={{ padding: "10px" }}></th>
+                    {weatherData.list.slice(0, 14).map((data, index) => (
+                      <td key={index} style={{ padding: "10px" }}>Day {index + 1}</td>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th style={{ padding: "10px", backgroundColor: "#C7A54E" }}>Temperature</th>
+                    {weatherData.list.slice(0, 14).map((data, index) => (
+                      <td key={index} style={{ padding: "10px", backgroundColor: "#FFE770" }}>{data.main.temp}°C</td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <th style={{ padding: "10px", backgroundColor: " #C7A54E" }}>Minimum Temperature</th>
+                    {weatherData.list.slice(0, 14).map((data, index) => (
+                      <td key={index} style={{ padding: "10px", backgroundColor: "#FFE770" }}>{data.main.temp_min}°C</td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <th style={{ padding: "10px", backgroundColor: " #C7A54E" }}>Humidity</th>
+                    {weatherData.list.slice(0, 14).map((data, index) => (
+                      <td key={index} style={{ padding: "10px", backgroundColor: "#FFE770" }}>{data.main.humidity}%</td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+          )}
+        </Container>
+      </Body>
     </>
   );
-};
+}
 
-export default WeatherForecast;
+const Body = styled.div`
+background-image: url(${forecast});
+background-color: lightblue;
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+`
 
 const Container = styled.div`
-  width: 500px;
-  align-items: center;
-  padding: 1.5rem;
-  box-shadow: 0 0 2px;
-  margin: 1rem 0;
-  border-radius: 8px;
-  margin-left: 250px;
-  margin-right: 250px;
-
-  .info {
-    .location {
-      font-family: roboto;
-      text-transform: capitalize;
-    }
-
-    .temp {
-      font-family: roboto;
-      text-transform: capitalize;
-    }
-
-    h2 {
-      font-family: roboto;
-      text-transform: capitalize;
-    }
-  }
+background-color: rgba(255, 255, 255, 0.7);
+border: 1px solid #ccc;
+border-radius: 5px;
+padding: 20px;
+margin: 0 auto;
+text-align: center;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
+
+const InputField = styled.input`
+padding: 10px;
+font-size: 16px;
+border-radius: 5px;
+border: 1px solid #ccc;
+margin-bottom: 10px;
+box-sizing: border-box;
+width: 100%;
+`;
+
+const Title = styled.h1`
+font-size: 32px;
+margin-bottom: 20px;
+color: #4a4a4a;
+`;
+
+const Info = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
+
+const Location = styled.h2`
+font-size: 50px;
+margin-bottom: 10px;
+`;
+
+const Temp = styled.h2`
+font-size: 30px;
+margin-bottom: 5px;
+`
+const Feels = styled.h2`
+font-size: 30px;
+margin-bottom: 5px;
+`
+const Humidity = styled.h2`
+font-size: 30px;
+margin-bottom: 5px;
+
+`
+
+export default WeatherApp;
