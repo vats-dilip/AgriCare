@@ -2,9 +2,43 @@ import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { AuthContext } from "../AuthContext";
 import PostNews from "./PostNews";
+import NewsCard from "./NewsCard";
 
 function News() {
-  const [isAdmin, setIsAdmin] = useContext(AuthContext);
+  const [isAdmin] = useContext(AuthContext);
+  const [news, setNews] = useState([]);
+
+  const fetchNews = async () => {
+    await fetch("http://localhost:8080/getAllNews")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setNews(data);
+      });
+  };
+
+  useEffect(() => {
+    fetchNews();
+  }, []);
+
+  const cards = news
+    ? news.map((card) => {
+        return (
+          <NewsCard
+            heading={card.newsHeading}
+            article={card.newsArticle}
+            createdAt={card.createdAt}
+            imageLink={card.imageLink}
+            sourceName={card.newsSource}
+            sourceLink={card.newsSourceLink}
+          />
+        );
+      })
+    : null;
 
   return (
     <Container>
@@ -14,8 +48,7 @@ function News() {
         </div>
         <div className="news-container">
           {isAdmin && <PostNews />}
-          {/* {!isAdmin && 
-          car} */}
+          {!isAdmin && cards}
         </div>
       </div>
     </Container>

@@ -62,8 +62,6 @@ function PostNews() {
       imageLink: imageLink,
     };
 
-    console.log("news is : ", news);
-
     try {
       await fetch("http://localhost:8080/postNews", {
         method: "POST",
