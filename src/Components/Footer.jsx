@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 function Footer() {
-  return <Container>Footer</Container>;
+  return <Container>
+  <img src="/images/hero-img.jpeg"></img>
+  </Container>;
 }
 
 export default Footer;
@@ -17,4 +19,13 @@ const Container = styled.div`
   align-items: center;
   color: white;
   font-family: poppins;
+
+  img{
+    padding-left:300px;
+    border-radius: 5px;
+    width: 20%;
+    height: 50%;
+    object-fit: cover;
+
+  }
 `;

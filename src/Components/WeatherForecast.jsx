@@ -82,7 +82,6 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import forecast from "/images/forecast.png";
 import styled from "styled-components";
 
 const WeatherApp = ({ city }) => {
@@ -95,7 +94,7 @@ const WeatherApp = ({ city }) => {
       url: 'https://apjoy-weather-forecast.p.rapidapi.com/forecast',
       params: { location: search, days: '14' },
       headers: {
-        'X-RapidAPI-Key': '55b294e5a7mshbd944956f1f48bfp1e4dd1jsn4e984eb9dcb1',
+        'X-RapidAPI-Key': 'bfad283dfamsh94d0e4048494423p196d7ajsn27b2b40ab878',
         'X-RapidAPI-Host': 'apjoy-weather-forecast.p.rapidapi.com'
       }
     };
@@ -112,7 +111,7 @@ const WeatherApp = ({ city }) => {
     <>
       <Body>
         <Container>
-          <Title>Agri Weather</Title>
+          <Title>Weather Forecast</Title>
           <div className="inputdata">
             <InputField
               type="search"
@@ -132,30 +131,36 @@ const WeatherApp = ({ city }) => {
                   <tr style={{ backgroundColor: "#488A0F" }}>
                     <th style={{ padding: "10px", textAlign: "center" }} colSpan="15">Weather Forecast in {search}</th>
                   </tr>
-                  <tr style={{ backgroundColor: "#869F39" }}>
-                    <th style={{ padding: "10px" }}></th>
+                  <tr style={{ backgroundColor: "#b5e7a0" }}>
+                    <th style={{ padding: "10px" }}>Date/Time</th>
                     {weatherData.list.slice(0, 14).map((data, index) => (
-                      <td key={index} style={{ padding: "10px" }}>Day {index + 1}</td>
+                      <td key={index} style={{ padding: "10px" }}> {data.dt_txt}</td>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th style={{ padding: "10px", backgroundColor: "#C7A54E" }}>Temperature</th>
+                    <th style={{ padding: "10px", backgroundColor: "#d9ecd0" }}>Temperature</th>
                     {weatherData.list.slice(0, 14).map((data, index) => (
-                      <td key={index} style={{ padding: "10px", backgroundColor: "#FFE770" }}>{data.main.temp}°C</td>
+                      <td key={index} style={{ padding: "10px", backgroundColor: "#DAF5FF" }}>{data.main.temp}°C</td>
                     ))}
                   </tr>
                   <tr>
-                    <th style={{ padding: "10px", backgroundColor: " #C7A54E" }}>Minimum Temperature</th>
+                    <th style={{ padding: "10px", backgroundColor: " #d9ecd0" }}>Feels Like</th>
                     {weatherData.list.slice(0, 14).map((data, index) => (
-                      <td key={index} style={{ padding: "10px", backgroundColor: "#FFE770" }}>{data.main.temp_min}°C</td>
+                      <td key={index} style={{ padding: "10px", backgroundColor: "#DAF5FF" }}>{data.main.feels_like}°C</td>
                     ))}
                   </tr>
                   <tr>
-                    <th style={{ padding: "10px", backgroundColor: " #C7A54E" }}>Humidity</th>
+                    <th style={{ padding: "10px", backgroundColor: " #d9ecd0" }}>Humidity</th>
                     {weatherData.list.slice(0, 14).map((data, index) => (
-                      <td key={index} style={{ padding: "10px", backgroundColor: "#FFE770" }}>{data.main.humidity}%</td>
+                      <td key={index} style={{ padding: "10px", backgroundColor: "#DAF5FF" }}>{data.main.humidity}%</td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <th style={{ padding: "10px", backgroundColor: " #d9ecd0" }}>Wind Speed</th>
+                    {weatherData.list.slice(0, 14).map((data, index) => (
+                      <td key={index} style={{ padding: "10px", backgroundColor: "#DAF5FF" }}>{data.wind.speed}</td>
                     ))}
                   </tr>
                 </tbody>
@@ -170,8 +175,8 @@ const WeatherApp = ({ city }) => {
 }
 
 const Body = styled.div`
-background-image: url(${forecast});
-background-color: lightblue;
+${'' /* background-image: url(${forecast}); */}
+background-color: #f8fff5;
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
@@ -189,6 +194,7 @@ padding: 20px;
 margin: 0 auto;
 text-align: center;
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
 `;
 
 const InputField = styled.input`
