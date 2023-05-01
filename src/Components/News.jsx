@@ -47,7 +47,9 @@ function News() {
         <div className="heading">
           <p>News</p>
         </div>
-        <div className="news-container">{isAdmin ? <PostNews /> : cards}</div>
+        <div className="news-container">
+          {isAdmin ? <PostNews /> : cards.reverse()}
+        </div>
       </div>
     </Container>
   );
@@ -99,7 +101,7 @@ const Container = styled.div`
   }
 
   .news-container {
-     ${'' /* background-color: blue;  */}
+     ${"" /* background-color: blue;  */}
      flex: 1;
       width: 101rem;
       display: flex;
