@@ -113,20 +113,27 @@ const CropPrediction = () => {
           </form>
 
           {prediction && (
-            <p
+            <div
               style={{
-                backgroundColor: "#4CAF50",
+                backgroundColor: "darkgreen",
                 color: "white",
-                padding: "10px",
-                borderRadius: "5px",
-                marginTop: "20px",
-                textAlign: "center",
-                fontSize: "30px",
-                fontWeight: "bold",
+                padding: "0",
+                borderRadius: "3px",
+                marginTop: "10px",
+                fontSize: "13px",
+                fontWeight: "500",
+                width: "100%",
+                height:"2.5rem",
+                display:"flex",
+                justifyContent:"center",
+                alignItems:"center"
               }}
-            >
-              Recommended crop: {prediction}
+            ><p style={{
+              margin:"0",
+            }}>
+              Recommended Crop:  {prediction}
             </p>
+            </div>
           )}
         </FormWrapper>
       </div>
