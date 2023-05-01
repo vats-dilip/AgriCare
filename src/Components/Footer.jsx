@@ -51,7 +51,7 @@ function Footer() {
             <LinkedInIcon />
           </IconButton>
 
-          <IconButton component="a" href="" target="_blank" rel="noopener">
+          <IconButton component="a" href="https://github.com/saloni0110" target="_blank" rel="noopener">
             <GitHubIcon />
           </IconButton>
 
