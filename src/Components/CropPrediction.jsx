@@ -47,7 +47,7 @@ const CropPrediction = () => {
         </div>
         <FormWrapper>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="nitrogen_content">Nitrogen content:</label>
+            <label htmlFor="nitrogen_content">Nitrogen content (mg/kg):</label>
             <input
               type="number"
               id="nitrogen_content"
@@ -55,7 +55,9 @@ const CropPrediction = () => {
               value={formData.nitrogen_content}
               onChange={handleChange}
             />
-            <label htmlFor="phosphorus_content">Phosphorus content:</label>
+            <label htmlFor="phosphorus_content">
+              Phosphorus content (ppm):
+            </label>
             <input
               type="number"
               id="phosphorus_content"
@@ -64,7 +66,7 @@ const CropPrediction = () => {
               onChange={handleChange}
             />
 
-            <label htmlFor="potassium_content">Potassium content:</label>
+            <label htmlFor="potassium_content">Potassium content (ppm):</label>
             <input
               type="number"
               id="potassium_content"
