@@ -99,7 +99,7 @@ const Container = styled.div`
   }
 
   .news-container {
-     /* background-color: blue; */
+     ${'' /* background-color: blue;  */}
      flex: 1;
       width: 101rem;
       display: flex;
