@@ -7,8 +7,8 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 function Footer() {
   return (
-    <>
-      <Container>
+    <Container>
+      <div className="up">
         <div className="contribuiter_profile">
           <h4>Dilip</h4>
           <p>KIIT 3rd year</p>
@@ -124,11 +124,12 @@ function Footer() {
             <InstagramIcon />
           </IconButton>
         </div>
-      </Container>
-      <div className="copyright">
+      </div>
+
+      <div className="down">
         Copyright © 2023 Agri Care. All rights reserved.
       </div>
-    </>
+    </Container>
   );
 }
 
@@ -140,10 +141,41 @@ const Container = styled.div`
   background-color: #1c1b1b;
   margin-top: 2rem;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column;
   color: white;
   font-family: poppins;
+
+  .up {
+    padding-right: 4rem;
+    flex: 1;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .contribuiter_profile {
+      background-color: rgb(248, 255, 245);
+      margin-right: 20px;
+      border-radius: 5px;
+
+      h4 {
+        font-family: poppins;
+        padding-left: 11px;
+        color: black;
+      }
+
+      p {
+        font-family: poppins;
+        color: black;
+        padding-left: 10px;
+      }
+    }
+  }
+
+  .down {
+    width: 100%;
+    height: 3rem;
+    padding-left: 2rem;
+  }
 
   img {
     border-radius: 5px;
@@ -151,23 +183,5 @@ const Container = styled.div`
     height: 50%;
     object-fit: cover;
     margin-left: 10px;
-  }
-
-  .contribuiter_profile {
-    background-color: rgb(248, 255, 245);
-    margin-right: 10px;
-    border-radius: 5px;
-
-    h4 {
-      font-family: poppins;
-      padding-left: 11px;
-      color: black;
-    }
-
-    p {
-      font-family: poppins;
-      color: black;
-      padding-left: 10px;
-    }
   }
 `;
