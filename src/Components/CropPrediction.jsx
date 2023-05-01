@@ -25,7 +25,7 @@ const CropPrediction = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://agricare.onrender.com/predict",
+        "http://localhost:8000/predict",
         formData,
         {
           headers: {
@@ -35,7 +35,7 @@ const CropPrediction = () => {
       );
       setPrediction(response.data.crop);
     } catch (error) {
-      console.log("some error happened")
+      console.log("some error happened");
       console.log(error);
     }
   };
@@ -126,16 +126,19 @@ const CropPrediction = () => {
                 fontSize: "13px",
                 fontWeight: "500",
                 width: "100%",
-                height:"2.5rem",
-                display:"flex",
-                justifyContent:"center",
-                alignItems:"center"
+                height: "2.5rem",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
-            ><p style={{
-              margin:"0",
-            }}>
-              Recommended Crop:  {prediction}
-            </p>
+            >
+              <p
+                style={{
+                  margin: "0",
+                }}
+              >
+                Recommended Crop: {prediction}
+              </p>
             </div>
           )}
         </FormWrapper>
