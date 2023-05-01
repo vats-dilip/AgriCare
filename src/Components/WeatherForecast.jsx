@@ -176,7 +176,7 @@ const WeatherApp = ({ city }) => {
 
 const Body = styled.div`
 ${'' /* background-image: url(${forecast}); */}
-background-color: #f8fff5;
+background-color: f8fff5#;
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;

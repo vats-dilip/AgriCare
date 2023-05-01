@@ -17,27 +17,20 @@ const ImgSlider = () => {
 
   return (
     <StyledSlider {...settings}>
+      
       <Wrap>
-        <img src="/images/img1.jpeg"></img>
+        <img src="/images/img2.jpeg"></img>
       </Wrap>
       <Wrap>
-        <img src="/images/img2.jpg"></img>
-      </Wrap>
-      <Wrap>
-        <img src="/images/img3.jpg"></img>
+        <img src="/images/img3.jpeg"></img>
       </Wrap>
       <Wrap>
         <img src="/images/img4.jpg"></img>
       </Wrap>
       <Wrap>
-        <img src="/images/img5.jpg"></img>
+        <img src="/images/img8 (1).jpg"></img>
       </Wrap>
-      <Wrap>
-        <img src="/images/img6.jpg"></img>
-      </Wrap>
-      <Wrap>
-        <img src="/images/img7.jpg"></img>
-      </Wrap>
+      
     </StyledSlider>
   );
 };
@@ -53,19 +46,20 @@ export default ImgSlider;
 
 const Wrap = styled.div`
 
-  margin-top: 120px;
+  margin-top: 100px;
   width: 18rem;
   height: 300px;
   display: flex !important;
   justify-content: center;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(214, 214, 214, 0.565) 3px 2px 10px;
+  margin-bottom:0px;
   
   img {
     border-radius: 5px;
     width: 100%;
     max-height: 100%;
-    object-fit: cover;
+    object-fit: none;
     box-shadow: rgb(0 0 0 / 69%) 0px 30px -10px,
       rgb(0 0 0 /73%) 0px 16px 10px -10px;
   }
@@ -76,7 +70,7 @@ const Wrap = styled.div`
 const StyledSlider = styled(Slider)`
 
   .slick-dots {
-    bottom: 10px;
+    ${'' /* bottom: 10px; */}
   }
 
   .slick-next:before,
