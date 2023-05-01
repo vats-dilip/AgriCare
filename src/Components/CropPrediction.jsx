@@ -25,7 +25,7 @@ const CropPrediction = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8000/predict",
+        "https://agricare.onrender.com/predict",
         formData,
         {
           headers: {
@@ -35,6 +35,7 @@ const CropPrediction = () => {
       );
       setPrediction(response.data.crop);
     } catch (error) {
+      console.log("some error happened")
       console.log(error);
     }
   };
